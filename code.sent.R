@@ -51,8 +51,7 @@ mybinary <- CovertBinary(items,purchase)
 ###create association rule
 AssociationRule <- function(mybinary){
         rules <- apriori(mybinary, parameter=list(support=0.1, confidence=0.8)) #specified parameters
-        rules
-        inspect(sort(rules, by ="lift"))
+        capture.output(inspect(sort(rules, by ="lift")))
 }
 
 #example of AssociationRule
