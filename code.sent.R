@@ -51,7 +51,7 @@ mybinary <- CovertBinary(items,purchase)
 ###create association rule
 AssociationRule <- function(mybinary){
         rules <- apriori(mybinary, parameter=list(support=0.1, confidence=0.8)) #specified parameters
-        capture.output(inspect(sort(rules, by ="lift")))
+        as(inspect(sort(rules, by ="lift")),"data.frame")
 }
 
 #example of AssociationRule
@@ -82,3 +82,7 @@ Recommander <- function(input.courses){
 #input method, output probability
 input.courses <- "140.751.01"
 Recommander(input.courses)
+
+
+
+
