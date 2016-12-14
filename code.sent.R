@@ -51,8 +51,9 @@ mybinary <- CovertBinary(items,purchase)
 ###create association rule
 AssociationRule <- function(mybinary){
         rules <- apriori(mybinary, parameter=list(support=0.1, confidence=0.8)) #specified parameters
-        as(inspect(sort(rules, by ="lift")),"data.frame")
-}
+        rules <- as(rules,"data.frame")
+        rules
+        }
 
 #example of AssociationRule
 mybinary <- CovertBinary(items,purchase)
@@ -64,8 +65,10 @@ rules <- AssociationRule(mybinary)
 
 #corrently find the first lhs that contains all the input.courses
 Recommander <- function(input.courses){
-        lhs <- as.vector(rules$lhs)
-        rhs <- as.vector(rules$rhs)
+        recommand.courses <- NULL
+        rules <- (rules$rules %>% str_split(" => "))
+        lhs <- lapply(rules,function(x) x[1])
+        rhs <- lapply(rules,function(x) x[2])
         #covert lhs to list of vectors
         lhs <- gsub("\\{|\\}","",lhs) %>% str_split(",")
         rhs <- gsub("\\{|\\}","",rhs) %>% str_split(",")
@@ -75,7 +78,7 @@ Recommander <- function(input.courses){
                         break;
                 }
         }
-        recommand.courses
+        recommand.courses #if don't find rules, use CourseRank
 }
 
 #example of Recommander
